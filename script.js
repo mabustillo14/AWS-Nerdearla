@@ -16,6 +16,9 @@ class RockPaperScissorsGame {
         this.hands = null;
         this.camera = null;
         this.sounds = this.createSounds();
+        this.gameMode = 'vs-computer';
+        this.player1Choice = null;
+        this.waitingForPlayer2 = false;
         
         this.init();
     }
@@ -133,11 +136,42 @@ class RockPaperScissorsGame {
     
     setupEventListeners() {
         this.playBtn.addEventListener('click', () => this.playGame());
+        
+        document.getElementById('vs-computer').addEventListener('click', () => this.setGameMode('vs-computer'));
+        document.getElementById('vs-player').addEventListener('click', () => this.setGameMode('vs-player'));
+    }
+    
+    setGameMode(mode) {
+        this.gameMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(mode).classList.add('active');
+        
+        if (mode === 'vs-computer') {
+            document.getElementById('player1-label').textContent = 'Tú';
+            document.getElementById('player2-label').textContent = 'Computadora';
+            document.getElementById('choice1-label').textContent = 'Tu Elección';
+            document.getElementById('choice2-label').textContent = 'Elección de la Computadora';
+        } else {
+            document.getElementById('player1-label').textContent = 'Jugador 1';
+            document.getElementById('player2-label').textContent = 'Jugador 2';
+            document.getElementById('choice1-label').textContent = 'Jugador 1';
+            document.getElementById('choice2-label').textContent = 'Jugador 2';
+        }
+        
+        this.resetGame();
     }
     
     playGame() {
         if (!this.currentGesture) return;
         
+        if (this.gameMode === 'vs-computer') {
+            this.playVsComputer();
+        } else {
+            this.playVsPlayer();
+        }
+    }
+    
+    playVsComputer() {
         const choices = ['Piedra', 'Papel', 'Tijera'];
         const computerChoice = choices[Math.floor(Math.random() * 3)];
         
@@ -162,6 +196,38 @@ class RockPaperScissorsGame {
         }
     }
     
+    playVsPlayer() {
+        if (!this.waitingForPlayer2) {
+            this.player1Choice = this.currentGesture;
+            this.playerChoice.textContent = this.getEmoji(this.currentGesture);
+            this.gameResult.textContent = 'Jugador 2, ¡haz tu jugada!';
+            this.waitingForPlayer2 = true;
+            this.playBtn.textContent = 'Esperando Jugador 2...';
+        } else {
+            this.sounds.play();
+            
+            this.computerChoice.textContent = this.getEmoji(this.currentGesture);
+            
+            const result = this.determineWinnerPvP(this.player1Choice, this.currentGesture);
+            this.gameResult.textContent = result;
+            
+            if (result.includes('Jugador 1 gana')) {
+                this.scores.player++;
+                this.playerScore.textContent = this.scores.player;
+                this.sounds.win();
+            } else if (result.includes('Jugador 2 gana')) {
+                this.scores.computer++;
+                this.computerScore.textContent = this.scores.computer;
+                this.sounds.lose();
+            } else {
+                this.sounds.tie();
+            }
+            
+            this.waitingForPlayer2 = false;
+            this.player1Choice = null;
+        }
+    }
+    
     determineWinner(player, computer) {
         if (player === computer) return "¡Es un empate!";
         
@@ -174,6 +240,31 @@ class RockPaperScissorsGame {
         return winConditions[player] === computer ? 
             `¡Ganaste! ${player} vence a ${computer}` : 
             `¡La computadora gana! ${computer} vence a ${player}`;
+    }
+    
+    determineWinnerPvP(player1, player2) {
+        if (player1 === player2) return "¡Es un empate!";
+        
+        const winConditions = {
+            'Piedra': 'Tijera',
+            'Papel': 'Piedra',
+            'Tijera': 'Papel'
+        };
+        
+        return winConditions[player1] === player2 ? 
+            `¡Jugador 1 gana! ${player1} vence a ${player2}` : 
+            `¡Jugador 2 gana! ${player2} vence a ${player1}`;
+    }
+    
+    resetGame() {
+        this.scores = { player: 0, computer: 0 };
+        this.playerScore.textContent = '0';
+        this.computerScore.textContent = '0';
+        this.playerChoice.textContent = '?';
+        this.computerChoice.textContent = '?';
+        this.gameResult.textContent = '¡Haz tu jugada!';
+        this.waitingForPlayer2 = false;
+        this.player1Choice = null;
     }
     
     getEmoji(choice) {

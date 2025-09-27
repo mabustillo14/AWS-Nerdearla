@@ -9,6 +9,10 @@
 <body>
     <div class="container">
         <h1>Piedra Papel Tijera</h1>
+        <div class="mode-selection">
+            <button id="vs-computer" class="mode-btn active">1 vs Máquina</button>
+            <button id="vs-player" class="mode-btn">1 vs 1</button>
+        </div>
         <div class="game-area">
             <div class="camera-section">
                 <video id="video" autoplay muted></video>
@@ -20,21 +24,21 @@
             <div class="game-info">
                 <div class="scores">
                     <div class="score">
-                        <h3>Tú</h3>
+                        <h3 id="player1-label">Jugador 1</h3>
                         <span id="player-score">0</span>
                     </div>
                     <div class="score">
-                        <h3>Computadora</h3>
+                        <h3 id="player2-label">Computadora</h3>
                         <span id="computer-score">0</span>
                     </div>
                 </div>
                 <div class="choices">
                     <div class="choice">
-                        <h4>Tu Elección</h4>
+                        <h4 id="choice1-label">Jugador 1</h4>
                         <div id="player-choice">?</div>
                     </div>
                     <div class="choice">
-                        <h4>Elección de la Computadora</h4>
+                        <h4 id="choice2-label">Computadora</h4>
                         <div id="computer-choice">?</div>
                     </div>
                 </div>
