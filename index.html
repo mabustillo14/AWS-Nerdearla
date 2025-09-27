@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - Camera Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Rock Paper Scissors</h1>
+        <div class="game-area">
+            <div class="camera-section">
+                <video id="video" autoplay muted></video>
+                <canvas id="canvas"></canvas>
+                <div class="detection-result">
+                    <p>Show your hand: <span id="detected-gesture">None</span></p>
+                </div>
+            </div>
+            <div class="game-info">
+                <div class="scores">
+                    <div class="score">
+                        <h3>You</h3>
+                        <span id="player-score">0</span>
+                    </div>
+                    <div class="score">
+                        <h3>Computer</h3>
+                        <span id="computer-score">0</span>
+                    </div>
+                </div>
+                <div class="choices">
+                    <div class="choice">
+                        <h4>Your Choice</h4>
+                        <div id="player-choice">?</div>
+                    </div>
+                    <div class="choice">
+                        <h4>Computer Choice</h4>
+                        <div id="computer-choice">?</div>
+                    </div>
+                </div>
+                <div class="result">
+                    <p id="game-result">Make your move!</p>
+                </div>
+                <button id="play-btn" disabled>Detecting...</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
