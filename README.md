@@ -193,7 +193,16 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 Desarrollado para AWS Nerdearla - Demostración de Vibe Codiding con Amazon Q
 
 ### Chat con Amazon Q
-En esta sección, podrás ver cómo se implementa el chat con Amazon Q. Utilizando esta herramienta, logré crear una interfaz interactiva que responde a los usuarios de manera fluida, adaptándose a sus preguntas y ofreciendo respuestas precisas en tiempo real.
+
+
+Para este proyecto, utilicé **Amazon Q** para ayudar en el desarrollo del juego interactivo de **Piedra, Papel o Tijera**. Mi solicitud a Amazon Q fue la siguiente:
+
+```HTML
+Develop the Rock, Paper, Scissors game with the Camera. Use the webcam to detect your hand. It must be made with HTML, CSS, and JavaScript
+
+```
+Desde Visual Studio Code:
+
 ![Chat con Amazon Q](capturas/amazon_q_chat.png)
 
 ## Resultado
