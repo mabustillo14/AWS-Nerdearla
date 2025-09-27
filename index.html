@@ -1,47 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rock Paper Scissors - Camera Game</title>
+    <title>Piedra Papel Tijera - Juego con Cámara</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Rock Paper Scissors</h1>
+        <h1>Piedra Papel Tijera</h1>
         <div class="game-area">
             <div class="camera-section">
                 <video id="video" autoplay muted></video>
                 <canvas id="canvas"></canvas>
                 <div class="detection-result">
-                    <p>Show your hand: <span id="detected-gesture">None</span></p>
+                    <p>Muestra tu mano: <span id="detected-gesture">Ninguna</span></p>
                 </div>
             </div>
             <div class="game-info">
                 <div class="scores">
                     <div class="score">
-                        <h3>You</h3>
+                        <h3>Tú</h3>
                         <span id="player-score">0</span>
                     </div>
                     <div class="score">
-                        <h3>Computer</h3>
+                        <h3>Computadora</h3>
                         <span id="computer-score">0</span>
                     </div>
                 </div>
                 <div class="choices">
                     <div class="choice">
-                        <h4>Your Choice</h4>
+                        <h4>Tu Elección</h4>
                         <div id="player-choice">?</div>
                     </div>
                     <div class="choice">
-                        <h4>Computer Choice</h4>
+                        <h4>Elección de la Computadora</h4>
                         <div id="computer-choice">?</div>
                     </div>
                 </div>
                 <div class="result">
-                    <p id="game-result">Make your move!</p>
+                    <p id="game-result">¡Haz tu jugada!</p>
                 </div>
-                <button id="play-btn" disabled>Detecting...</button>
+                <button id="play-btn" disabled>Detectando...</button>
             </div>
         </div>
     </div>

@@ -15,6 +15,7 @@ class RockPaperScissorsGame {
         this.currentGesture = null;
         this.hands = null;
         this.camera = null;
+        this.sounds = this.createSounds();
         
         this.init();
     }
@@ -38,7 +39,7 @@ class RockPaperScissorsGame {
             });
         } catch (error) {
             console.error('Camera access denied:', error);
-            this.gameResult.textContent = 'Camera access required to play!';
+            this.gameResult.textContent = '¡Se requiere acceso a la cámara para jugar!';
         }
     }
     
@@ -75,14 +76,14 @@ class RockPaperScissorsGame {
             const landmarks = results.multiHandLandmarks[0];
             this.drawLandmarks(landmarks);
             this.currentGesture = this.detectGesture(landmarks);
-            this.detectedGesture.textContent = this.currentGesture || 'Unknown';
+            this.detectedGesture.textContent = this.translateGesture(this.currentGesture) || 'Desconocido';
             this.playBtn.disabled = !this.currentGesture;
-            this.playBtn.textContent = this.currentGesture ? 'Play!' : 'Show your hand';
+            this.playBtn.textContent = this.currentGesture ? '¡Jugar!' : 'Muestra tu mano';
         } else {
             this.currentGesture = null;
-            this.detectedGesture.textContent = 'None';
+            this.detectedGesture.textContent = 'Ninguna';
             this.playBtn.disabled = true;
-            this.playBtn.textContent = 'Show your hand';
+            this.playBtn.textContent = 'Muestra tu mano';
         }
         
         this.ctx.restore();
@@ -121,11 +122,11 @@ class RockPaperScissorsGame {
         }
         
         // Gesture detection
-        if (extendedFingers === 0) return 'Rock';
+        if (extendedFingers === 0) return 'Piedra';
         if (extendedFingers === 2 && 
             landmarks[8].y < landmarks[6].y && 
-            landmarks[12].y < landmarks[10].y) return 'Scissors';
-        if (extendedFingers === 5) return 'Paper';
+            landmarks[12].y < landmarks[10].y) return 'Tijera';
+        if (extendedFingers === 5) return 'Papel';
         
         return null;
     }
@@ -137,8 +138,10 @@ class RockPaperScissorsGame {
     playGame() {
         if (!this.currentGesture) return;
         
-        const choices = ['Rock', 'Paper', 'Scissors'];
+        const choices = ['Piedra', 'Papel', 'Tijera'];
         const computerChoice = choices[Math.floor(Math.random() * 3)];
+        
+        this.sounds.play.play();
         
         this.playerChoice.textContent = this.getEmoji(this.currentGesture);
         this.computerChoice.textContent = this.getEmoji(computerChoice);
@@ -146,36 +149,79 @@ class RockPaperScissorsGame {
         const result = this.determineWinner(this.currentGesture, computerChoice);
         this.gameResult.textContent = result;
         
-        if (result.includes('You win')) {
+        if (result.includes('Ganaste')) {
             this.scores.player++;
             this.playerScore.textContent = this.scores.player;
-        } else if (result.includes('Computer wins')) {
+            this.sounds.win.play();
+        } else if (result.includes('La computadora gana')) {
             this.scores.computer++;
             this.computerScore.textContent = this.scores.computer;
+            this.sounds.lose.play();
+        } else {
+            this.sounds.tie.play();
         }
     }
     
     determineWinner(player, computer) {
-        if (player === computer) return "It's a tie!";
+        if (player === computer) return "¡Es un empate!";
         
         const winConditions = {
-            'Rock': 'Scissors',
-            'Paper': 'Rock',
-            'Scissors': 'Paper'
+            'Piedra': 'Tijera',
+            'Papel': 'Piedra',
+            'Tijera': 'Papel'
         };
         
         return winConditions[player] === computer ? 
-            `You win! ${player} beats ${computer}` : 
-            `Computer wins! ${computer} beats ${player}`;
+            `¡Ganaste! ${player} vence a ${computer}` : 
+            `¡La computadora gana! ${computer} vence a ${player}`;
     }
     
     getEmoji(choice) {
         const emojis = {
-            'Rock': '🪨',
-            'Paper': '📄',
-            'Scissors': '✂️'
+            'Piedra': '🪨',
+            'Papel': '📄',
+            'Tijera': '✂️'
         };
         return emojis[choice] || '?';
+    }
+    
+    translateGesture(gesture) {
+        const translations = {
+            'Rock': 'Piedra',
+            'Paper': 'Papel',
+            'Scissors': 'Tijera'
+        };
+        return translations[gesture] || gesture;
+    }
+    
+    createSounds() {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        const createTone = (frequency, duration, type = 'sine') => {
+            return () => {
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+                oscillator.type = type;
+                
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + duration);
+            };
+        };
+        
+        return {
+            play: createTone(440, 0.2),
+            win: createTone(523, 0.5),
+            lose: createTone(220, 0.5),
+            tie: createTone(330, 0.3)
+        };
     }
 }
 
