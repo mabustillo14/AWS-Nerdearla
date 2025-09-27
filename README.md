@@ -190,14 +190,15 @@ Este proyecto está bajo la Licencia MIT. Ver `LICENSE` para más detalles.
 
 ## 👨‍💻 Autor
 
-Desarrollado para AWS Nerdearla - Demostración de tecnologías web modernas.
+Desarrollado para AWS Nerdearla - Demostración de Vibe Codiding con Amazon Q
 
-## 🙏 Agradecimientos
+### Chat con Amazon Q
+En esta sección, podrás ver cómo se implementa el chat con Amazon Q. Utilizando esta herramienta, logré crear una interfaz interactiva que responde a los usuarios de manera fluida, adaptándose a sus preguntas y ofreciendo respuestas precisas en tiempo real.
+![Chat con Amazon Q](capturas/amazon_q_chat.png)
 
-- **MediaPipe** por la tecnología de detección de gestos
-- **AWS** por el patrocinio del evento
-- **Nerdearla** por la oportunidad de presentar
-
+## Resultado
+El juego detecta los gestos, los compara con la opción de la máquina y muestra el resultado de la partida.
+![Resultado](capturas/resultado.png)
 ---
 
 ⭐ ¡Dale una estrella si te gustó el proyecto!
