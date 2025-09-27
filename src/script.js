@@ -199,13 +199,14 @@ class RockPaperScissorsGame {
     playVsPlayer() {
         if (!this.waitingForPlayer2) {
             this.player1Choice = this.currentGesture;
-            this.playerChoice.textContent = this.getEmoji(this.currentGesture);
+            this.playerChoice.textContent = '?';
             this.gameResult.textContent = 'Jugador 2, ¡haz tu jugada!';
             this.waitingForPlayer2 = true;
             this.playBtn.textContent = 'Esperando Jugador 2...';
         } else {
             this.sounds.play();
             
+            this.playerChoice.textContent = this.getEmoji(this.player1Choice);
             this.computerChoice.textContent = this.getEmoji(this.currentGesture);
             
             const result = this.determineWinnerPvP(this.player1Choice, this.currentGesture);
