@@ -141,7 +141,7 @@ class RockPaperScissorsGame {
         const choices = ['Piedra', 'Papel', 'Tijera'];
         const computerChoice = choices[Math.floor(Math.random() * 3)];
         
-        this.sounds.play.play();
+        this.sounds.play();
         
         this.playerChoice.textContent = this.getEmoji(this.currentGesture);
         this.computerChoice.textContent = this.getEmoji(computerChoice);
@@ -152,13 +152,13 @@ class RockPaperScissorsGame {
         if (result.includes('Ganaste')) {
             this.scores.player++;
             this.playerScore.textContent = this.scores.player;
-            this.sounds.win.play();
+            this.sounds.win();
         } else if (result.includes('La computadora gana')) {
             this.scores.computer++;
             this.computerScore.textContent = this.scores.computer;
-            this.sounds.lose.play();
+            this.sounds.lose();
         } else {
-            this.sounds.tie.play();
+            this.sounds.tie();
         }
     }
     
