@@ -198,6 +198,7 @@ En esta sección, podrás ver cómo se implementa el chat con Amazon Q. Utilizan
 
 ## Resultado
 El juego detecta los gestos, los compara con la opción de la máquina y muestra el resultado de la partida.
+
 ![Resultado](capturas/resultado.png)
 ---
 
